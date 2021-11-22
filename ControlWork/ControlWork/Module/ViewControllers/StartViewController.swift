@@ -7,23 +7,29 @@
 
 import UIKit
 
-class StartViewController: UIViewController {
+class StartViewController: UIViewController, FlowController {
+	
+	var completionHandler: ((Bool) -> ())?
+	
+	private let customView = StartView()
+	
+	override func loadView() {
+		self.view = customView
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+		customView.delegate = self
     }
-    
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+extension StartViewController: StartViewDelegate {
+	
+	func showSingIn() {
+		completionHandler?(true)
+	}
+	
+	func showSignUp() {
+		completionHandler?(false)
+	}
 }

@@ -7,23 +7,24 @@
 
 import UIKit
 
-class RegViewController: UIViewController {
+class RegViewController: UIViewController, FlowController {
+	
+	var completionHandler: ((Bool) -> ())?	
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	private let customView = BaseView(frame: .zero, text: "Enter login", secondText: nil, isTextFieldPresent: false)
+	
+	override func loadView() {
+		self.view = customView
+	}
 
-        // Do any additional setup after loading the view.
-    }
-    
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		customView.delegate = self
+	}
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+extension RegViewController: BaseViewDelegate {
+	func goTo() {
+		completionHandler?(true)
+	}
 }

@@ -25,11 +25,16 @@ class AuthCoordinator: Coordinator {
 	
 	private func showStartModule() {
 		
-		let controller = StartViewController()
-		
+		let controller = moduleFactory.createStartModule()
+		controller.completionHandler = { [weak self] value in
+			if value == true {
+				self?.showAuthModule()
+			} else {
+				self?.showRegModule()
+			}
+		}
 		navigationController.pushViewController(controller, animated: true)
 	}
-	
 	
 	private func showAuthModule() {
 		

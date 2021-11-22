@@ -1,5 +1,5 @@
 //
-//  RegistarationCoordinator.swift
+//  RegistrationCoordinator.swift
 //  ControlWork
 //
 //  Created by Nail Galiev on 22.11.2021.
@@ -20,27 +20,27 @@ class RegistrationCoordinator: Coordinator {
 	}
 	
 	func start() {
-		showAuthModule()
+		showRegModule()
 	}
 	
 	private func showEnterPassModule() {
 		
 		let controller = moduleFactory.createRegEnterPasswordModule()
-		
-		navigationController.pushViewController(controller, animated: true)
-	}
-	
-	private func showAuthModule() {
-		
-		let controller = moduleFactory.createAuthModule()
-		
+		controller.completionHandler = { [weak self] value in
+
+		}
 		navigationController.pushViewController(controller, animated: true)
 	}
 	
 	private func showRegModule() {
 		
-		let controller = moduleFactory.createRegModule()
+		let regCoordinator = CoordinatorFactory().createRegCoordinator(navigationController: navigationController)
+	
+		regCoordinator.flowCompletionHandler = { [weak self] in
+			let controller = self?.moduleFactory.createRegModule()
+			self?.navigationController.pushViewController(controller ?? UIViewController(), animated: true)
+		}
 		
-		navigationController.pushViewController(controller, animated: true)
+		regCoordinator.start()
 	}
 }
